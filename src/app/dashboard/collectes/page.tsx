@@ -1,4 +1,6 @@
 "use client";
+export const dynamic = "force-dynamic";
+export const fetchCache = "force-no-store";
 
 import { motion } from "framer-motion";
 import { Truck, Loader2, CheckCircle2 } from "lucide-react";
@@ -12,25 +14,28 @@ import { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from '@
 import { useState, useMemo, useEffect, useRef } from 'react';
 import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription, DialogClose } from '@/components/ui/dialog';
 import { Image as ImageIcon, MapPin } from 'lucide-react';
-import dynamic from 'next/dynamic';
-import L from 'leaflet';
+import nextDynamic from 'next/dynamic';
 
 // Import dynamique de la carte pour éviter les problèmes SSR
-const MapContainer = dynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
-const TileLayer = dynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
-const Marker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
-const Popup = dynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
+const MapContainer = nextDynamic(() => import('react-leaflet').then(mod => mod.MapContainer), { ssr: false });
+const TileLayer = nextDynamic(() => import('react-leaflet').then(mod => mod.TileLayer), { ssr: false });
+const Marker = nextDynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false });
+const Popup = nextDynamic(() => import('react-leaflet').then(mod => mod.Popup), { ssr: false });
 
-// Fix pour les icônes Leaflet dans Next.js
-if (typeof window !== 'undefined') {
-  L.Icon.Default.mergeOptions({
-    iconRetinaUrl: '/marker-icon-2x.png',
-    iconUrl: '/marker-icon.png',
-    shadowUrl: '/marker-shadow.png',
-  });
-}
+// Fix pour les icônes Leaflet dans Next.js (doit être côté client)
 
 export default function CollectesPage() {
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const L = require('leaflet');
+      L.Icon.Default.mergeOptions({
+        iconRetinaUrl: '/marker-icon-2x.png',
+        iconUrl: '/marker-icon.png',
+        shadowUrl: '/marker-shadow.png',
+      });
+    }
+  }, []);
+
   const { data, isLoading, error, refetch } = useCollectesEnAttente();
   const { mutateAsync: validerCollecte, status: validationStatus } = useValiderCollecte();
   const isValidating = validationStatus === 'pending';
