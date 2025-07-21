@@ -17,7 +17,7 @@ export async function testApiEndpoint(
     console.group(`🧪 Test API: ${method} ${endpoint}`);
     console.log('📤 Payload:', payload);
     
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}${endpoint}`, {
+    const response = await fetch(`${process.env.REACT_APP_API_URL}${endpoint}`, {
       method,
       headers: {
         'Content-Type': 'application/json',

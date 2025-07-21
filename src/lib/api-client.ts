@@ -5,7 +5,7 @@ import Cookies from "js-cookie";
 
 // Configuration de base
 //  || 'http://localhost:3002'
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_BASE_URL = process.env.REACT_APP_API_URL;
 
 // Types pour les réponses d'erreur
 interface ApiError {
