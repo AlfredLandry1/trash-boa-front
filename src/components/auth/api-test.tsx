@@ -45,7 +45,7 @@ export function ApiTest() {
       console.log(`🧪 Test inscription: ${name}`);
       console.log('📤 Payload:', payload);
       
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/register`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/register`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ export function ApiTest() {
       console.log(`🧪 Test connexion: ${name}`);
       console.log('📤 Payload:', payload);
       
-      const response = await fetch(`${process.env.REACT_APP_API_URL}/api/auth/login`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
